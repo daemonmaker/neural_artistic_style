@@ -2,7 +2,7 @@
 A playground for experimenting with different methods of neural artistic style transfer.
 
 ## Docker
-The simplest way to get started with this repository is to use docker. Just build the image and create the container by executing:
+The simplest way to get started with this repository is to use docker. Just build the image and create the container by executing the following commands from within the repository:
 
 ```bash
 ./build_image && ./run_image
