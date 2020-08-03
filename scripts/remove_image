@@ -1,0 +1,1 @@
+docker rm neural_artistic_style; docker rmi neural_artistic_style:latest
