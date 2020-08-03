@@ -1,1 +1,1 @@
-docker run --name neural_artistic_style -p 8888:8888 -v /Users/dustinwebb/repos/neural_artistic_style:/tf neural_artistic_style:latest
+docker run --name neural_artistic_style -p 8888:8888 -v `pwd`:/tf neural_artistic_style:latest
