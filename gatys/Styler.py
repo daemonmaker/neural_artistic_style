@@ -93,12 +93,12 @@ def run_styler(
     num_content_layers = len(content_layers)
     num_style_layers = len(style_layers)
 
-    style_extractor = vgg_layers(style_layers)
-    style_outputs = style_extractor(style_image*255)
+    # style_extractor = vgg_layers(style_layers)  # unused
+    # style_outputs = style_extractor(style_image*255)  # unused
 
     extractor = StyleContentModel(style_layers, content_layers)
 
-    results = extractor(tf.constant(content_image))
+    # results = extractor(tf.constant(content_image))  # unused
 
     style_targets = extractor(style_image)['style']
     content_targets = extractor(content_image)['content']
