@@ -10,7 +10,7 @@ The simplest way to get started with this repository is to use docker. Execute t
 ./scripts/build_image
 ```
 
-The docker image is named `neural_artistic_style` and it supports two modes; one that exposes Jupyter notebooks and another that exposes a Flask server. These modes can be activated by executing `./scrits/run_jupyter` and `./script/run_flask` respectively. These scripts need to be executed from within the root of this repository because they mount this repository at `/tf` within the container.
+The docker image is named `neural_artistic_style` and it supports two modes; one that exposes Jupyter notebooks and another that exposes a Flask server. These modes can be activated by executing `./scripts/run_jupyter` and `./scripts/run_flask` respectively. These scripts need to be executed from within the root of this repository because they mount this repository at `/tf` within the container.
 
 *Note:* The resulting containers are not retained once they are shutdown.
 
