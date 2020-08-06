@@ -12,7 +12,7 @@ import PIL.Image
 import time
 import functools
 
-from utils import clip_0_1, gram_matrix, vgg_layers
+from utils import clip_0_1, gram_matrix, vgg_layers, tensor_to_image
 
 class StyleContentModel(tf.keras.models.Model):
   def __init__(self, style_layers, content_layers):
@@ -70,6 +70,7 @@ def train_step(image, style_targets, style_weight, content_weight, total_variati
 
 
 def run_styler(
+    vgg,
     style_image,
     content_image,
     iterations=3,
@@ -77,41 +78,55 @@ def run_styler(
     style_weight=1e-2,
     content_weight=1e4,
     total_variation_weight=10,
-    content_layers = ['block5_conv2'],
-    style_layers = ['block1_conv1',
-                    'block2_conv1',
-                    'block3_conv1', 
-                    'block4_conv1', 
-                    'block5_conv1'],
+    content_layers = tuple(['block5_conv2']),
+    style_layers = tuple(['block1_conv1',
+                          'block2_conv1',
+                          'block3_conv1',
+                          'block4_conv1',
+                          'block5_conv1']),
+    convert_result_to_image=False,
 ):
-    vgg = tf.keras.applications.VGG19(include_top=False, weights='imagenet')
-    
+    vgg.trainable = False
+
     print('Layers:')
     for layer in vgg.layers:
         print(layer.name)
 
     num_content_layers = len(content_layers)
+    print('num_content_layers: ', num_content_layers)
     num_style_layers = len(style_layers)
+    print('num_style_layers: ', num_style_layers)
 
-    style_extractor = vgg_layers(style_layers)
+    style_extractor = vgg_layers(style_layers, vgg)
+    print('style_extractor layers found')
     style_outputs = style_extractor(style_image*255)
+    print('style_outputs created')
 
     extractor = StyleContentModel(style_layers, content_layers)
+    print('extractor created')
 
     results = extractor(tf.constant(content_image))
+    print('results calculated')
 
     style_targets = extractor(style_image)['style']
+    print('style_targets extracted')
     content_targets = extractor(content_image)['content']
+    print('content_targets extracted')
 
     image = tf.Variable(content_image)
+    print('image variable created')
     #image = tf.Variable(style_image)
 
     opt = tf.optimizers.Adam(learning_rate=learning_rate, beta_1=0.99, epsilon=1e-1)
- 
+    print('optimzer created')
+
     print('')
     print('Styling:')
     for idx in range(iterations):
         print(idx+1, '/', iterations)
         train_step(image, style_targets, style_weight, content_weight, total_variation_weight, num_style_layers, content_targets, num_content_layers, extractor, opt)
+
+    if convert_result_to_image:
+        image = tensor_to_image(image)
 
     return image

@@ -2,9 +2,9 @@ if [ $z "$1" ]
 	then
 	if [ $z "$2" ]
 		then
-			docker run --name neural_artistic_style -p 5000:5000 -v `pwd`:/tf --gpus $2 --rm --env FLASK_APP=/tf/$1/Server.py neural_artistic_style:latest flask run --host=0.0.0.0
+			docker run --name neural_artistic_style -p 5000:5000 -v `pwd`:/tf --gpus $2 --rm neural_artistic_style:latest /scripts/flask_container_startup.sh $1
 	else
-			docker run --name neural_artistic_style -p 5000:5000 -v `pwd`:/tf --rm --env FLASK_APP=/tf/$1/Server.py neural_artistic_style:latest flask run --host=0.0.0.0
+			docker run --name neural_artistic_style -p 5000:5000 -v `pwd`:/tf --rm neural_artistic_style:latest /scripts/flask_container_startup.sh $1
 	fi
 else
 	echo "Implementation name required. Options are [\"gatys\"]."

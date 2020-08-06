@@ -127,3 +127,12 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# Pycharm
+.idea
+
+# Apple stuff
+.DS_store
+
+# Redis
+*.rdb

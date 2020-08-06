@@ -1,0 +1,6 @@
+if [ $z "$1" ]
+then
+	docker run --name neural_artistic_style -p 5000:5000 -v `pwd`:/tf --gpus $2 --rm -it -m 8g --cpuset-cpus="0-1" neural_artistic_style:latest bash
+else
+	docker run --name neural_artistic_style -p 5000:5000 -v `pwd`:/tf --rm -it -m 8g --cpuset-cpus="0-1" neural_artistic_style:latest bash
+fi
