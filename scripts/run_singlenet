@@ -1,0 +1,7 @@
+
+# gyom : I'll add back the flexibility inside this script later,
+#        but now I just need something that runs in order to dev/debug.
+
+docker run --name neural_artistic_style -p 5000:5000 -v `pwd`:/tf --gpus 1 --rm \
+    neural_artistic_style:latest \
+    python3 -m singlenet.script01
